@@ -1,0 +1,36 @@
+{
+  "name": "view-editor2",
+  "version": "1.0.0",
+  "description": "h5 editor",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/careycui/view-editor2.git"
+  },
+  "keywords": [
+    "view",
+    "h5",
+    "editor"
+  ],
+  "author": "careycui",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/careycui/view-editor2/issues"
+  },
+  "homepage": "https://github.com/careycui/view-editor2#readme",
+  "dependencies": {
+    "koa": "^2.5.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0",
+    "koa2-cors": "^2.0.5",
+    "mysql2": "^1.5.3",
+    "sequelize": "^4.37.10",
+    "time-stamp": "^2.0.0"
+  }
+}
