@@ -32,5 +32,8 @@
     "mysql2": "^1.5.3",
     "sequelize": "^4.37.10",
     "time-stamp": "^2.0.0"
+  },
+  "devDependencies": {
+    "webpack": "^4.12.0"
   }
 }
