@@ -4,11 +4,47 @@ const router = require('./server/router/router');
 const kb = require('koa-bodyparser');
 const json = require('koa-json');
 const cors = require('koa2-cors');
+const static = require('koa-static');
+const path = require('path');
 
 const APP = new Koa();
 
+let staticPath = './dist';
+
+if(process.env.NODE_ENV === 'development'){
+	console.log(process.env.NODE_ENV);
+	const Webpack = require('webpack');
+	const webpackConfig = require('./build/webpack.dev.conf.js');
+	const compiler = Webpack(webpackConfig);
+	const koaWebpack = require('koa-webpack');
+	var config = require('./config')
+
+	koaWebpack({ 
+		compiler
+	 }).then((middleware) => {
+	  APP.use(middleware);
+	}).catch((result) => {
+		console.log(result);
+	});
+
+	 // force page reload when html-webpack-plugin template changes
+	compiler.plugin('compilation', function (compilation) {
+	  compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
+	    hotMiddleware.publish({ action: 'reload' })
+	    cb()
+	  })
+	})
+
+	staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
+}
+
 
 APP.use(logger());
+
+APP.use(static(
+  path.join( __dirname,  staticPath)
+))
+
 APP.use(cors());
 APP.use(kb({
 	onerror: (err, ctx) => {
