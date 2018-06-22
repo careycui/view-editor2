@@ -2,33 +2,15 @@ var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
-const { VueLoaderPlugin } = require('vue-loader');
-var glob = require('glob')
-function getEntry(globPath) {
-  var entries = {},
-      basename, tmp, pathname;
+var { VueLoaderPlugin } = require('vue-loader');
 
-  glob.sync(globPath).forEach(function (entry) {
-    basename = path.basename(entry, path.extname(entry));
-    tmp = entry.split('\/').splice(-4);
-    var pathsrc = tmp[0]+'\/'+tmp[1];
-    if( tmp[0] == 'src' ){
-      pathsrc = tmp[1];
-    }
-    pathname = pathsrc + '\/' + basename;
-    entries[pathname] = ['babel-polyfill', entry];
-
-    console.log(pathname+'-----------'+entry);
-
-  });
-  return entries;
-}
 //获得入口文件
-var entries = getEntry('./src/module/*/*.js');
+var entries = utils.getEntry(config.entry.js);
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
+
 module.exports = {
   entry: entries,
   output: {

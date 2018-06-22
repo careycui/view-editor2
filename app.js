@@ -12,7 +12,6 @@ const APP = new Koa();
 let staticPath = './dist';
 
 if(process.env.NODE_ENV === 'development'){
-	console.log(process.env.NODE_ENV);
 	const Webpack = require('webpack');
 	const webpackConfig = require('./build/webpack.dev.conf.js');
 	const compiler = Webpack(webpackConfig);
@@ -26,15 +25,6 @@ if(process.env.NODE_ENV === 'development'){
 	}).catch((result) => {
 		console.log(result);
 	});
-
-	 // force page reload when html-webpack-plugin template changes
-	// compiler.plugin('compilation', function (compilation) {
-	//   compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
-	//     hotMiddleware.publish({ action: 'reload' })
-	//     cb()
-	//   })
-	// })
-
 	staticPath = path.posix.join(config.dev.assetsPublicPath)
 }
 

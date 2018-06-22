@@ -1,6 +1,8 @@
 var path = require('path')
 var config = require('../config')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var glob = require('glob')
+var path = require('path')
 
 exports.assetsPath = function (_path) {
   var assetsSubDirectory = process.env.NODE_ENV === 'production'
@@ -68,4 +70,28 @@ exports.styleLoaders = function (options) {
     })
   }
   return output
+}
+// 获取多个入口点
+exports.getEntry = function(entryPath){
+  var entries = {};
+  var basename;
+  var tmp;
+  var pathname;
+
+  glob.sync(entryPath).forEach((entry) => {
+    basename = path.basename(entry, path.extname(entry));
+    tmp = entry.split('\/').splice(-4);
+
+    var pathsrc = tmp[0] + '\/' + tmp[1];
+    if(tmp[0] == 'src'){
+      pathsrc = tmp[1];
+    }
+
+    pathname = pathsrc + '\/' + basename;
+
+    entries[pathname] = entry;
+
+    console.log(pathname+'-----------'+entry);
+  });
+  return entries;
 }

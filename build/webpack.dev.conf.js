@@ -11,25 +11,6 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
   baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(baseWebpackConfig.entry[name])
 })
 
-var glob = require('glob');
-
-function getEntry(globPath) {
-  var entries = {},
-    basename, tmp, pathname;
-  glob.sync(globPath).forEach(function (entry) {
-    basename = path.basename(entry, path.extname(entry));
-    tmp = entry.split('\/').splice(-4);
-  
-    var pathsrc = tmp[0]+'\/'+tmp[1];
-    if( tmp[0] == 'src' ){
-      pathsrc = tmp[1];
-    }
-    pathname = pathsrc + '\/' + basename;
-    entries[pathname] = entry;
-    console.log(pathname+'-----------'+entry);
-  });
-  return entries;
-}
 var plugins = [
     new webpack.DefinePlugin({
       'process.env': config.dev.env
@@ -39,7 +20,7 @@ var plugins = [
     new webpack.NoEmitOnErrorsPlugin(),
     new FriendlyErrorsPlugin()
   ];
-var pages = getEntry('./src/module/*/*.html');
+var pages = utils.getEntry(config.entry.html);
 
 for (var pathname in pages) {
 

@@ -9,8 +9,6 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
-var glob = require('glob')
-
 var env = config.build.env
 
 var webpackConfig = merge(baseWebpackConfig, {
@@ -77,24 +75,7 @@ if (config.build.bundleAnalyzerReport) {
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
-function getEntry(globPath) {
-  var entries = {},
-    basename, tmp, pathname;
-  glob.sync(globPath).forEach(function (entry) {
-    basename = path.basename(entry, path.extname(entry));
-    tmp = entry.split('\/').splice(-4);
-  
-    var pathsrc = tmp[0]+'\/'+tmp[1];
-    if( tmp[0] == 'src' ){
-      pathsrc = tmp[1];
-    }
-    pathname = pathsrc + '\/' + basename;
-    entries[pathname] = entry;
-  });
-  return entries;
-}
-
-var pages = getEntry('./src/module/*/*.html');
+var pages =utils.getEntry(config.entry.html);
 
 for (var pathname in pages) {
   // 配置生成的html文件，定义路径等
