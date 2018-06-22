@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import './../../global'
 import VueRouter from 'vue-router'
+import ElmentUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import Home from './home.vue'
 import Info from './components/info'
@@ -9,50 +11,10 @@ import Folder from './components/folder'
 import AssetImg from './components/asset_img'
 import AssetTmp from './components/asset_tmp'
 import Create from './components/create.vue'
-import {Row,
-		Col,
-		Menu,
-	    Submenu,
-	    MenuItem,
-	    MenuItemGroup,
-	    Button,
-	    ButtonGroup,
-	    Tabs,
-	    TabPane,
-	    Dropdown,
-	    DropdownMenu,
-	    DropdownItem,
-		Dialog,
-		Input,
-		Form,
-		FormItem,
-		Loading,
-		Select,
-		Option,
-		Upload} from 'element-ui';
 
-Vue.use(VueRouter);
-Vue.use(Row);
-Vue.use(Col);
-Vue.use(Menu);
-Vue.use(Submenu);
-Vue.use(MenuItem);
-Vue.use(MenuItemGroup);
-Vue.use(Button);
-Vue.use(ButtonGroup);
-Vue.use(Tabs);
-Vue.use(TabPane);
-Vue.use(Dropdown);
-Vue.use(DropdownMenu);
-Vue.use(DropdownItem);
-Vue.use(Dialog);
-Vue.use(Input);
-Vue.use(Form);
-Vue.use(FormItem);
-Vue.use(Loading);
-Vue.use(Select);
-Vue.use(Option);
-Vue.use(Upload);
+
+Vue.use(VueRouter)
+Vue.use(ElmentUI)
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;

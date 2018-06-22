@@ -28,23 +28,21 @@ if(process.env.NODE_ENV === 'development'){
 	});
 
 	 // force page reload when html-webpack-plugin template changes
-	compiler.plugin('compilation', function (compilation) {
-	  compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
-	    hotMiddleware.publish({ action: 'reload' })
-	    cb()
-	  })
-	})
+	// compiler.plugin('compilation', function (compilation) {
+	//   compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
+	//     hotMiddleware.publish({ action: 'reload' })
+	//     cb()
+	//   })
+	// })
 
-	staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
+	staticPath = path.posix.join(config.dev.assetsPublicPath)
 }
-
 
 APP.use(logger());
 
 APP.use(static(
   path.join( __dirname,  staticPath)
 ))
-
 APP.use(cors());
 APP.use(kb({
 	onerror: (err, ctx) => {

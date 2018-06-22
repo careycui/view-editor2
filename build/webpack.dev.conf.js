@@ -26,6 +26,7 @@ function getEntry(globPath) {
     }
     pathname = pathsrc + '\/' + basename;
     entries[pathname] = entry;
+    console.log(pathname+'-----------'+entry);
   });
   return entries;
 }
@@ -38,7 +39,7 @@ var plugins = [
     new webpack.NoEmitOnErrorsPlugin(),
     new FriendlyErrorsPlugin()
   ];
-var pages = getEntry('./src/module/**/*.html');
+var pages = getEntry('./src/module/*/*.html');
 
 for (var pathname in pages) {
 
@@ -58,5 +59,6 @@ module.exports = merge(baseWebpackConfig, {
   },
   // cheap-module-eval-source-map is faster for development
   devtool: '#cheap-module-eval-source-map',
+  mode: 'development',
   plugins: plugins
 })

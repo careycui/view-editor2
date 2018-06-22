@@ -1,6 +1,8 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import ElmentUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
 import './../../global'
 import axios from 'axios'
@@ -12,65 +14,7 @@ import register from './utils/register.js'
 
 import DragSort from './components/common/drag_sort/index'
 
-import  {Input,
-		InputNumber,
-		Radio,
-		RadioGroup,
-		RadioButton,
-		Checkbox,
-		CheckboxGroup,
-		Switch,
-		Select,
-		Option,
-		OptionGroup,
-		Button,
-		ButtonGroup,
-		Tag,
-		Tree,
-		Collapse,
-		CollapseItem,
-		Dialog,
-		Tooltip,
-		Tabs,
-		TabPane,
-		Slider,
-		Row,
-		Col,
-		ColorPicker,
-		Form,
-		FormItem,
-		Upload} from 'element-ui'
-
-Vue.use(Input);
-Vue.use(InputNumber);
-Vue.use(Radio);
-Vue.use(RadioGroup);
-Vue.use(RadioButton);
-Vue.use(Checkbox);
-Vue.use(CheckboxGroup);
-Vue.use(Switch);
-Vue.use(Select);
-Vue.use(Option);
-Vue.use(OptionGroup);
-Vue.use(Button);
-Vue.use(ButtonGroup);
-Vue.use(Tree);
-Vue.use(Tag);
-Vue.use(Collapse);
-Vue.use(CollapseItem);
-Vue.use(Dialog);
-Vue.use(Tooltip);
-Vue.use(Tabs);
-Vue.use(TabPane);
-Vue.use(Slider);
-Vue.use(Row);
-Vue.use(Col);
-Vue.use(ColorPicker);
-Vue.use(Form);
-Vue.use(FormItem);
-Vue.use(Upload);
-
-
+Vue.use(ElmentUI)
 Vue.use(DragSort)
 
 Vue.prototype.$http = axios;

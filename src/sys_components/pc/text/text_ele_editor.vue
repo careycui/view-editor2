@@ -58,7 +58,7 @@
 		}
 	}
 </script>
-<style lang="scss">
+<style >
 	.text-panel{
 		width: 100%;
 		background-color: #D3DCE6;
