@@ -4,8 +4,9 @@ var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 var { VueLoaderPlugin } = require('vue-loader');
 
+
 //获得入口文件
-var entries = utils.getEntry(config.entry.js);
+var entries = utils.getEntry(config.server.entry.js);
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)

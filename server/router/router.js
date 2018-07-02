@@ -4,7 +4,7 @@ const Folder = require('./../apis/foldersRelated.js');
 const router = new Router();
 
 router.get('/', async (ctx, next) => {
-	ctx.body = 'Hello Koa';
+	ctx.redirect(process.env.homePage);
 });
 
 router.get('/pro/index/:type', Page.proIndex);

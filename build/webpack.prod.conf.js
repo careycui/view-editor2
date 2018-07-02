@@ -6,10 +6,9 @@ var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var MiniCssExtractPlugin = require("mini-css-extract-plugin")
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
-
-var env = config.build.env
+var CleanWebpackPlugin = require('clean-webpack-plugin')
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -28,27 +27,28 @@ var webpackConfig = merge(baseWebpackConfig, {
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
-      'process.env': env
+      'process.env': config.build.env
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      },
-      sourceMap: true
-    }),
+     new CleanWebpackPlugin(
+      'http/',
+      {
+        root: path.resolve(__dirname, '../'),
+        verbose: true,
+        dry: false
+      }),
     // extract css into its own file
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: utils.assetsPath('css/[name].[contenthash].css')
     }),
     // copy custom static assets
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, '../static'),
+        from: path.resolve(__dirname, '../client/static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
     ]),
-    new ExtractTextPlugin(path.join(config.build.assetsSubDirectory, '[name].[contenthash].css'))
+    new MiniCssExtractPlugin(path.join(config.build.assetsSubDirectory, '[name].[contenthash].css'))
   ]
 })
 
@@ -75,7 +75,7 @@ if (config.build.bundleAnalyzerReport) {
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
 
-var pages =utils.getEntry(config.entry.html);
+var pages =utils.getEntry(config.server.entry.html);
 
 for (var pathname in pages) {
   // 配置生成的html文件，定义路径等

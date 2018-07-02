@@ -6,6 +6,8 @@ var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+var CopyWebpackPlugin = require('copy-webpack-plugin')
+var CleanWebpackPlugin = require('clean-webpack-plugin')
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
   baseWebpackConfig.entry[name] = ['./build/dev-client'].concat(baseWebpackConfig.entry[name])
@@ -15,12 +17,25 @@ var plugins = [
     new webpack.DefinePlugin({
       'process.env': config.dev.env
     }),
-    // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
-    // new webpack.HotModuleReplacementPlugin(),
+    new CleanWebpackPlugin(
+      'http/',
+      {
+        root: path.resolve(__dirname, '../'),
+        verbose: true,
+        dry: false
+      }),
     new webpack.NoEmitOnErrorsPlugin(),
-    new FriendlyErrorsPlugin()
+    new FriendlyErrorsPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../client/static'),
+        to: config.dev.assetsSubDirectory,
+        ignore: ['.*']
+      }
+    ])
   ];
-var pages = utils.getEntry(config.entry.html);
+var pages = utils.getEntry(config.server.entry.html);
 
 for (var pathname in pages) {
 
