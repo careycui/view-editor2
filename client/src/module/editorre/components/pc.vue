@@ -173,9 +173,13 @@ export default {
       $cnts.forEach(cnt => {
         let $tmp = cnt.cloneNode(true);
         let $operate = $tmp.querySelector('.operate-box');
+        let $proBanners = $tmp.querySelectorAll('.pro-banner');
         if($operate){
           $tmp.removeChild($operate);
         }
+        $proBanners.forEach((pro, i) => {
+          pro.remove(i);
+        });
         html += $tmp.innerHTML.replace(/(&quot;)+/g, '\'').replace(/(data\-v\-[\w]+\=[\"]{2})+/g, '').replace(/(\n)+/g, '')
                                 .replace(/(\<\![\-]{4}\>)+/g, '').replace(/active/g, '');
       });

@@ -29,6 +29,10 @@ import TextEleConfig from  './text/text_ele_config'
 import LinkEle from './link/link_ele'
 import LinkEleEditor from './link/link_ele_editor'
 import LinkEleConfig from  './link/link_ele_config'
+
+import CartBtn from './cart_btn/cart_btn'
+import CartBtnEditor from './cart_btn/cart_btn_editor'
+import CartBtnConfig from  './cart_btn/cart_btn_config'
 /**
  * 基础组件描述对象
  * 	comObj 组件对象
@@ -138,6 +142,18 @@ const ui_desc = [{
 	},
 	data () {
 		return LinkEleConfig.getData();
+	}
+}, {
+	comKey: 'cartBtn',
+	comObj: CartBtn,
+	comEditorObj: CartBtnEditor,
+	desc: {
+		label: 'YS购买按钮',
+		icon: 'fa-shopping-cart',
+		level: 0
+	},
+	data () {
+		return CartBtnConfig.getData();
 	}
 }];
 export const SYS_UI_DESC = ui_desc;

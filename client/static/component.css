@@ -147,3 +147,107 @@ img{
     margin-left: -960px;
     width: 1920px
 }
+
+.cus-box{
+ 	position:absolute;
+    width:1200px;
+    height: 100%;
+    left:50%;
+    margin-left:-600px;
+    top:0;
+}
+.pro-banner__safe {
+    position:absolute;
+    width:1200px;
+    height: 100%;
+    left:50%;
+    margin-left:-600px;
+    top:0;
+    z-index: 1;
+}
+.pro-banner__price {
+    position:absolute;
+    top:386px;
+    left:40px;
+}
+.pro-banner__price.pos-left {
+    left:40px;
+    text-align: left;
+}
+.pro-banner__price.pos-right {
+    left:auto;
+    right:40px;
+    text-align: left;
+}
+.pro-banner__price.pos-center {
+    width:100%;
+    left:50%;
+    margin-left:-600px;
+    text-align:center;
+}
+.pro-banner__price .price{
+    line-height:1.5;
+    vertical-align:bottom;
+    font-size:36px;
+    color:#ff6a02;
+    word-spacing: -6px;
+
+}
+.pro-banner__price .price .price-sign {
+    font-size:24px;
+    letter-spacing:-2px;
+    vertical-align:middle;
+}
+.pro-banner__price .price .price-range {
+    margin-bottom:0;
+    font-size:16px;
+    vertical-align:middle;
+}
+.pro-banner__price .price .price-desc {
+    display:inline-block;
+    padding:6px 10px;
+    margin-bottom:7px;
+    margin-left:8px;
+    line-height:1;
+    vertical-align:middle;
+    font-size:16px;
+    border:1px solid #ff6a02;
+    border-radius:2px;
+    box-sizing:border-box;
+}
+.pro-banner__price .price span{
+	display:inline-block;
+ 	word-spacing: 0px;
+}
+.pro-banner__price .price .price-tip{
+	font-size:18px;
+    line-height:30px;
+    color:#666;
+}
+.pro-banner__price .price .uline {
+    text-decoration:line-through;
+    font-size: 16px;
+}
+.ft24 {
+    font-size:24px
+}
+.buy-btn{
+    display: inline-block;
+	position: absolute;
+    top: 0;
+    left: 50%;
+    width: 190px;
+    height: 48px;
+    border: 1px solid #f75c20;
+    border-radius: 5px;
+    line-height: 48px;
+    font-size: 18px;
+    color: #fff;
+    filter: none;
+    background-color: #ff6102;
+    background-image: linear-gradient(#ff6202,#ff7d02);
+    text-align: center;
+    text-indent: 0;
+    z-index: 1;
+    text-decoration: none;
+}

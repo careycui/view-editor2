@@ -82,6 +82,9 @@ const getters = {
 	getBaseData (state) {
 		return state.base;
 	},
+	getPlatformType (state) {
+		return state.base.platform_type;
+	},
 	getCss (state) {
 		return state.css
 	},
