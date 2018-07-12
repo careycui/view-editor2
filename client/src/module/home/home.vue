@@ -20,24 +20,12 @@
 				      	text-color="#fff"
 						:router="true"
 						@select="hangdleSelect">
-						<el-submenu index="1">
-							<template slot="title"><i class="el-icon-menu"></i>详情页</template>
-							<el-menu-item index="/info/pc" :route="{path:'/info/pc'}">
-								<i class="el-icon-document"></i>PC
-							</el-menu-item>
-							<el-menu-item index="/info/mobile" :route="{path:'/info/mobile'}">
-								<i class="el-icon-document"></i>Mobile
-							</el-menu-item>
-						</el-submenu>
-						<el-submenu index="2">
-							<template slot="title"><i class="el-icon-menu"></i>专题活动页</template>
-							<el-menu-item index="/topic/pc" :route="{path:'/topic/pc'}">
-								<i class="el-icon-document"></i>PC
-							</el-menu-item>
-							<el-menu-item index="/topic/mobile" :route="{path:'/topic/mobile'}">
-								<i class="el-icon-document"></i>Mobile
-							</el-menu-item>
-						</el-submenu>
+						<el-menu-item index="/info/pro" :route="{path:'/info/pro'}">
+								<i class="el-icon-document"></i>详情页
+						</el-menu-item>
+						<el-menu-item index="/topic/topic" :route="{path:'/topic/topic'}">
+							<i class="el-icon-document"></i>专题活动页
+						</el-menu-item>
 						<el-submenu index="3">
 							<template slot="title">
 								<i class="el-icon-menu"></i>
@@ -80,7 +68,7 @@
 				<router-view @openBase="openBase" @openPreview="openPreview" :folders="folders"></router-view>
 			</el-main>
 		</el-container>
-		<el-dialog title="页面信息" size="small" :visible.sync="baseDialogVisible" :close-on-click-modal="false" custom-class="dialog-size" v-loading.body="loading">
+		<el-dialog title="页面信息" :visible.sync="baseDialogVisible" :close-on-click-modal="false" custom-class="dialog-size" v-loading.body="loading">
 			<el-row v-if="editPage">
 				<el-col :md="10" :xs="24" :sm="24" style="text-align:center;">
 					<div class="project-card" style="margin:0;">
@@ -183,7 +171,7 @@
 			},
 			hangdleSelect (index, indexPath) {
 				this.activeName = index;
-				this.page_type = indexPath[1].indexOf('info')>-1?'pro':(indexPath[1].indexOf('topic')>-1?'topic':'');
+				this.page_type = indexPath[0].indexOf('info')>-1?'pro':(indexPath[0].indexOf('topic')>-1?'topic':'');
 			},
 			openPage () {
 				this.activeName = '';
@@ -193,7 +181,7 @@
 				var _this = this;
 				this.loading = true;
 				this.$http({
-					url: G.C.apiPath + _this.editPage.t_type +'/update',
+					url: G.C.apiPath + 'base/update',
 						method: 'POST',
 						data:_this.editPage,
 						responseType: 'json'
@@ -221,38 +209,65 @@
 					});
 				}
 			},
-			openPreview (page) {
-				let html = JSON.parse(page.html_data);
-
-				let css = '<link rel="stylesheet" type="text/css" href="'+ G.C.staticPath +'static/component.css" />' ;
-			  	let css1 = '<link rel="stylesheet" type="text/css" href="'+ G.C.staticPath +'static/animate-min.css" />' ;
-			  	let lib = '\<script type="text/javascript" src="'+ G.C.staticPath +'static/jquery.min.js"\>\<\/script\>';
-			  	let lib1 = '\<script type="text/javascript" src="'+ G.C.staticPath +'static/img-slide-min.js"\>\<\/script\>';
-			  	let lib2 = '\<script type="text/javascript" src="'+ G.C.staticPath +'static/aniview-min.js"\>\<\/script\>';
-			  	let pagejs = '\<script type="text/javascript" src="'+ G.C.staticPath +'static/page.js"\>\<\/script\>';
-
-		      	let mcss = '<link rel="stylesheet" type="text/css" href="'+ G.C.staticPath +'static/ezviz-m.css" />';
-     			let mcss1 = '<link rel="stylesheet" type="text/css" href="'+ G.C.staticPath +'static/animate-min.css" />';
-
-		      	let pt = page.platform_type;
-		      	let src;
-		      	if(pt === 1){
-		      		src = mcss + mcss1  + html;
-		      	}else{
-		      		src = css + css1 + html + lib + lib1 + lib2 + pagejs;
-		      	}
-
-				if(!html){
-					Message({
-						message: '还未添加页面内容',
-						showClose: true,
-						type: 'error'
-					});
-					return;
+			openPreview (data) {
+				const _this = this;
+				let pageId;
+				let t_type = data.page.page_type == 0? 'pro' : 'topic';
+				this.loading = true;
+				if(data.platform == 0){
+					pageId = data.page.pc;
+				}else{
+					pageId = data.page.mobile;
 				}
-				this.viewPt = pt;
-				this.html = src;
-				this.isPreview = true;
+				this.$http({
+					url: G.C.apiPath + t_type + '/getPage/' + pageId,
+						method: 'GET',
+						data:_this.editPage,
+						responseType: 'json'
+					}).then(function(res){
+						const page = res.data.page;
+						_this.loading = false;
+
+						let html = JSON.parse(page.html_data);
+
+						let css = '<link rel="stylesheet" type="text/css" href="'+ G.C.staticPath +'static/component.css" />' ;
+					  	let css1 = '<link rel="stylesheet" type="text/css" href="'+ G.C.staticPath +'static/animate-min.css" />' ;
+					  	let lib = '\<script type="text/javascript" src="'+ G.C.staticPath +'static/jquery.min.js"\>\<\/script\>';
+					  	let lib1 = '\<script type="text/javascript" src="'+ G.C.staticPath +'static/img-slide-min.js"\>\<\/script\>';
+					  	let lib2 = '\<script type="text/javascript" src="'+ G.C.staticPath +'static/aniview-min.js"\>\<\/script\>';
+					  	let pagejs = '\<script type="text/javascript" src="'+ G.C.staticPath +'static/page.js"\>\<\/script\>';
+
+				      	let mcss = '<link rel="stylesheet" type="text/css" href="'+ G.C.staticPath +'static/ezviz-m.css" />';
+		     			let mcss1 = '<link rel="stylesheet" type="text/css" href="'+ G.C.staticPath +'static/animate-min.css" />';
+
+				      	let pt = page.platform_type;
+				      	let src;
+				      	if(pt === 1){
+				      		src = mcss + mcss1  + html;
+				      	}else{
+				      		src = css + css1 + html + lib + lib1 + lib2 + pagejs;
+				      	}
+
+						if(!html){
+							Message({
+								message: '还未添加页面内容',
+								showClose: true,
+								type: 'error'
+							});
+							return;
+						}
+						_this.viewPt = pt;
+						_this.html = src;
+						_this.isPreview = true;
+
+					}, function(err,xhr){
+						Message({
+							message: '获取页面数据失败,请稍后再试',
+							showClose: true,
+							type: 'error'
+						});
+						_this.loading = false;
+				});
 			},
 		    updateVisible (val) {
 		      this.isPreview = val;
@@ -519,9 +534,9 @@
 		-ms-transform: translate3d(0, 0, 0);
 		transform: translate3d(0, 0, 0);
 
-		-webkit-transition: all .45s;
-		-moz-transition: all .45s;
-		transition: all .45s;
+		-webkit-transition: all .45s ease-out;
+		-moz-transition: all .45s ease-out;
+		transition: all .45s ease-out;
 
 		& .project-card--img{
 			width: 100%;
@@ -569,9 +584,9 @@
 			visibility: hidden;
 			opacity: 0;
 
-			-webkit-transition: all .3s;
-			-moz-transition: all .3s;
-			transition: all .3s;
+			-webkit-transition: all .3s ease-out;
+			-moz-transition: all .3s ease-out;
+			transition: all .3s ease-out;
 
 			& .update-time{
 				display: block;
@@ -586,7 +601,7 @@
 			position: absolute;
 			bottom: 0;
 			width: 100%;
-			height: 30px;
+			height: 35px;
 			padding: 4px 10px;
 			background-color: #fff;
 			word-spacing: -8px;
@@ -595,10 +610,10 @@
 			-moz-transform: translate3d(0, 40px, 0);
 			-ms-transform: translate3d(0, 40px, 0);
 			transform: translate3d(0, 40px, 0);
-			-webkit-transition: all .25s;
-			-moz-transition: all .25s;
-			-ms-transition: all .25s;
-			transition: all .25s;
+			-webkit-transition: all .25s ease-out;
+			-moz-transition: all .25s ease-out;
+			-ms-transition: all .25s ease-out;
+			transition: all .25s ease-out;
 		}
 
 		&:hover{
@@ -629,6 +644,18 @@
 		overflow:hidden;
 		text-align: center;
 		padding: 7px 6px;
+		width: 25px;
+		& span.text{
+			display: inline-block;
+			opacity: 0;
+		}
+		&:hover{
+			width: 60px;
+
+			& span.text{
+				opacity: 1;
+			}
+		}
 	}
 	.el-button.plain-btn{
 		background-color: transparent;

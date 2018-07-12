@@ -109,8 +109,8 @@ export default{
 				});
 		},
 		jumpToNav (){
-			let path = (this.page_type === 'pro'?'info':'topic');
-			this.$router.push('/'+ path + '/pc');
+			let path = (this.page_type === 'pro'?'info/pro':'topic/topic');
+			this.$router.push('/'+ path);
 		}
 	}
 }

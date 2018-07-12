@@ -41,17 +41,18 @@ export default {
     }).then(function(result){
       const data = result.data;
       _this.$store.dispatch('setPageContent', { base:{
-          id: data.id,
-          title: data.title,
-          desc: data.desc,
-          img_cover: data.img_cover,
-          page_data: data.page_data,
-          css: data.css,
-          t_type: data.t_type,
-          platform_type: data.platform_type,
-          page_type: data.page_type
-        }, page: JSON.parse(data.page_data)}).then(() => {
-          if(data.platform_type === 1){
+          id: data.page.id,
+          base_id: data.base.id,
+          title: data.base.title,
+          desc: data.base.desc,
+          img_cover: data.base.img_cover,
+          page_data: data.page.page_data,
+          css: data.page.css,
+          t_type: data.base.t_type,
+          platform_type: data.page.platform_type,
+          page_type: data.base.page_type
+        }, page: JSON.parse(data.page.page_data)}).then(() => {
+          if(data.page.platform_type === 1){
             _this.comName = 'mobile';
             _this.$store.dispatch('setClientWidth', G.C.mobileClientWidth);
           }else{

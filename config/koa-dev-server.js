@@ -7,6 +7,7 @@ const json = require('koa-json');
 const cors = require('koa2-cors');
 const static = require('koa-static');
 const path = require('path');
+const favicon = require('koa-favicon');
 
 const Webpack = require('webpack');
 const webpackConfig = require('./../build/webpack.dev.conf.js');
@@ -20,6 +21,7 @@ const app = new Koa();
 
 app.use(logger());
 
+app.use(favicon(path.posix.join(__dirname, '../favicon.ico')));
 
 app.use(static(path.posix.join(__dirname, config.server.viewPath)));
 
@@ -37,23 +39,6 @@ app.use(router.routes());
 
 app.use(router.allowedMethods());
 
-// koaWebpack({ 
-// 		compiler
-// 	}).then((middleware) => {
-
-// 	app.listen(config.dev.port, () => {
-// 		console.log('Server start add '+ config.dev.port +'........');
-// 		opn('http://localhost:' + config.dev.port + config.server.homePage);
-// 	});
-
-// 	app.on('error', (err, ctx) => {
-// 		console.log('server error : ', err);
-// 	});
-// 	app.use(middleware);
-
-// }).catch((result) => {
-// 	// console.log(result);
-// });
 app.use(koaWebpack.devMiddleware(compiler, {
 	noInfo: false,
 	publicPath: webpackConfig.output.publicPath

@@ -4,14 +4,14 @@
 	      <div class="el-dialog" :style="pos" id="preview-dialog">
 	        <div class="el-dialog__header">
 	          <span class="el-dialog__title">Preview</span>
-	          <button type="button" aria-label="Close" class="el-dialog__headerbtn" style="margin-left:15px;" @click="handleClose">
-	            <i class="el-dialog__close el-icon el-icon-close"></i>
+	          <button type="button" aria-label="Close" class="el-dialog__headerbtn" @click="handleClose">
+	            <i class="el-dialog__close el-icon el-icon-circle-close-outline"></i>
 	          </button>
-	          <button type="button" v-show="!isFull" aria-label="铺满" class="el-dialog__headerbtn" style="margin-left:15px;" @click="handleFull">
-	            <i class="el-dialog__close el-icon el-icon-plus"></i>
+	          <button type="button" v-show="!isFull" aria-label="铺满" class="el-dialog__headerbtn" style="right:40px;" @click="handleFull">
+	            <i class="el-dialog__close el-icon el-icon-circle-plus-outline"></i>
 	          </button>
-	          <button type="button" v-show="isFull" aria-label="还原" class="el-dialog__headerbtn" style="margin-left:15px;" @click="handleRestore">
-	            <i class="el-dialog__close el-icon el-icon-minus"></i>
+	          <button type="button" v-show="isFull" aria-label="还原" class="el-dialog__headerbtn" style="right:40px;" @click="handleRestore">
+	            <i class="el-dialog__close el-icon el-icon-remove-outline"></i>
 	          </button>
 	        </div>
 	        <div class="el-dialog__body" id="preview-body">
@@ -141,7 +141,14 @@ export default {
 }
 .el-dialog__body{
 	height: 95%;
-	padding: 30px 10px;
+	padding: 0;
+}
+.el-dialog__header{
+	padding: 0px 20px
+}
+.el-dialog__title{
+	line-height: 50px;
+	font-size: 18px;
 }
 .mobile-cntrl{
 	position: absolute;

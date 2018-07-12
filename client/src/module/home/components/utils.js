@@ -67,7 +67,7 @@ var PAGE_MIXIN = {
 			var _this = this;
 			this.loading = true;
 			this.$http({
-				url: G.C.apiPath + page.t_type + '/copy/'+ page.id,
+				url: G.C.apiPath + 'base/copy/'+ page.id,
 				method: 'GET',
 				responseType: 'json'
 			}).then(function(res){
@@ -81,7 +81,7 @@ var PAGE_MIXIN = {
 			var _this = this;
 			this.loading = true;
 			this.$http({
-				url: G.C.apiPath + page.t_type + '/delete/'+ page.id,
+				url: G.C.apiPath + 'base/delete/'+ page.id,
 				method: 'GET',
 				responseType: 'json'
 			}).then(function(res){
@@ -165,7 +165,7 @@ var PAGE_MIXIN = {
 				    		}
 							_this.loading = true;
 							_this.$http({
-								url: G.C.apiPath + page.t_type + '/appendto/folder',
+								url: G.C.apiPath + 'base/appendto/folder',
 								method: 'POST',
 								data: {page_id: page.id, folder_id: folder_id},
 								responseType: 'json'
@@ -197,14 +197,14 @@ var PAGE_MIXIN = {
 					});
 				});
 		},
-		goPreview (page) {
-			this.$emit('openPreview', page);
+		goPreview (data) {
+			this.$emit('openPreview', data);
 		},
 		shiftOutFolder (page){
 			var _this = this;
 			this.loading = true;
 			this.$http({
-				url: G.C.apiPath + page.t_type + '/shiftout/folder',
+				url: G.C.apiPath + 'base/shiftout/folder',
 				method: 'POST',
 				data:{id:page.id, folder_id: null},
 				responseType: 'json'

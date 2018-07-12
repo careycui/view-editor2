@@ -7,45 +7,33 @@ router.get('/', async (ctx, next) => {
 	ctx.redirect(process.env.homePage);
 });
 
-router.get('/pro/index/:type', Page.proIndex);
+router.get('/pro/index', Page.proIndex);
 
 router.get('/pro/indexByFolderId/:folderid', Page.proIndexByFolderId);
 
-router.get('/topic/index/:type', Page.topicIndex);
+router.get('/topic/index', Page.topicIndex);
 
 router.get('/topic/indexByFolderId/:folderid', Page.topicIndexByFolderId);
 
-router.post('/pro/save', Page.savePro);
+router.post('/base/save', Page.save);
 
-router.post('/topic/save', Page.saveTopic);
+router.post('/base/update', Page.update);
 
-router.post('/pro/update', Page.updatePro);
+router.get('/base/copy/:id', Page.copy);
 
-router.post('/topic/update', Page.updateTopic);
+router.get('/base/delete/:id', Page.delete);
 
-router.post('/pro/savepage', Page.savePagePro);
+router.post('/base/appendto/folder', Page.baseAppendFolder);
 
-router.post('/topic/savepage', Page.savePageTopic);
+router.post('/base/shiftout/folder', Page.baseShiftOutFolder);
 
 router.get('/pro/getPage/:id', Page.getProPage);
 
 router.get('/topic/getPage/:id', Page.getTopicPage);
 
-router.get('/pro/copy/:id', Page.copyProPage);
+router.post('/pro/savepage', Page.savePagePro);
 
-router.get('/topic/copy:id', Page.copyTopicPage);
-
-router.get('/pro/delete/:id', Page.deleteProPage);
-
-router.get('/topic/delete:id', Page.deleteTopicPage);
-
-router.post('/pro/appendto/folder', Page.proAppendFolder);
-
-router.post('/topic/appendto/folder', Page.topicAppendFolder);
-
-router.post('/pro/shiftout/folder', Page.proShiftOutFolder);
-
-router.post('/topic/shiftout/folder', Page.topicShiftOutFolder);
+router.post('/topic/savepage', Page.savePageTopic);
 
 router.get('/folder/get/:type', Folder.getFolderByType);
 

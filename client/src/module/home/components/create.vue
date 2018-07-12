@@ -19,14 +19,6 @@
 									<el-button type="primary" size="small" @click="handleSavePro('PC_H5')" :disabled="true">海报页</el-button>
 								</div>
 							</div>
-							<div class="project-card">
-								<h3 class="add-sign"><i class="fa fa-mobile"></i></h3>
-								<p class="add-desc">新建mobile详情页</p>
-								<div class="add-btns">
-									<el-button type="primary" size="small" @click="handleSavePro('M_BASE')">普通页</el-button>
-									<el-button type="primary" size="small" @click="handleSavePro('M_H5')" :disabled="true">海报页</el-button>
-								</div>
-							</div>
 						</div>
 					</el-col>
 				</el-row>
@@ -42,14 +34,6 @@
 								<div class="add-btns">
 									<el-button type="primary" size="small" @click="handleSaveTopic('PC_BASE')">普通页</el-button>
 									<el-button type="primary" size="small" @click="handleSaveTopic('PC_H5')" :disabled="true">海报页</el-button>
-								</div>
-							</div>
-							<div class="project-card">
-								<h3 class="add-sign"><i class="fa fa-mobile"></i></h3>
-								<p class="add-desc">新建Mobile专题页</p>
-								<div class="add-btns">
-									<el-button type="primary" size="small" @click="handleSaveTopic('M_BASE')">普通页</el-button>
-									<el-button type="primary" size="small" @click="handleSaveTopic('M_H5')" :disabled="true">海报页</el-button>
 								</div>
 							</div>
 						</div>
@@ -118,33 +102,64 @@ export default{
 		},
 		handleSavePro (type) {
 			let baseData = PAGE_CONF[type];
-			this.$http({
-				url: G.C.apiPath + 'pro/save',
-				method: 'POST',
-				data: baseData,
-				responseType: 'json'
-			}).then(function(res){
-				if(res.data){
-					window.location.href="/module/editorre.html?key="+res.data.id+'&t_type=pro';
-				}
-			}, function(err){
+			const self = this;
+			baseData.t_type = 'pro';
+		 	this.$prompt('请输入详情页名称', '提示', {
+	          confirmButtonText: '确定',
+	          cancelButtonText: '取消',
+	          inputPattern: /^[\S]+$/,
+	          inputErrorMessage: '请输入页面名称'
+	        }).then(({ value }) => {
+         		baseData.title = value;	
+         		this.$http({
+					url: G.C.apiPath + 'base/save',
+					method: 'POST',
+					data: baseData,
+					responseType: 'json'
+				}).then(function(res){
+					if(res.data){
+						self.$router.push('/info/pro');
+					}
+				}, function(err){
 
-			});
+				});	
+	        }).catch(() => {
+	          this.$message({
+	            type: 'info',
+	            message: '取消输入'
+	          });       
+	        });
 		},
 		handleSaveTopic (type) {
 			let baseData = PAGE_CONF[type];
-			this.$http({
-				url: G.C.apiPath + 'topic/save',
-				method: 'POST',
-				data: baseData,
-				responseType: 'json'
-			}).then(function(res){
-				if(res.data){
-					window.location.href="/module/editorre.html?key="+res.data.id+'&t_type=topic';
-				}
-			}, function(err){
-				
-			});
+			const self = this;
+			baseData.t_type = 'topic';
+			this.$prompt('请输入专题页名称', '提示', {
+	          confirmButtonText: '确定',
+	          cancelButtonText: '取消',
+	          inputPattern: /^[\s]+$/,
+	          inputErrorMessage: '请输入页面名称'
+	        }).then(({ value }) => {
+         		baseData.title = value;	
+         		this.$http({
+					url: G.C.apiPath + 'base/save',
+					method: 'POST',
+					data: baseData,
+					responseType: 'json'
+				}).then(function(res){
+					if(res.data){
+						self.$router.push('/topic/topic');
+					}
+				}, function(err){
+					
+				});
+	        }).catch(() => {
+	          this.$message({
+	            type: 'info',
+	            message: '取消输入'
+	          });       
+	        });
+			
 		}
 	}
 }

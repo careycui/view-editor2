@@ -6,6 +6,7 @@ const json = require('koa-json');
 const cors = require('koa2-cors');
 const static = require('koa-static');
 const path = require('path');
+const favicon = require('koa-favicon');
 
 const config = require('./server.config');
 
@@ -15,6 +16,7 @@ const app = new Koa();
 
 app.use(logger());
 
+app.use(favicon(path.posix.join(__dirname, '../favicon.ico')));
 
 app.use(static(path.posix.join(__dirname, config.viewPath)));
 

@@ -201,7 +201,25 @@ export default {
         html += $tmp.innerHTML.replace(/(&quot;)+/g, '\'').replace(/(data\-v\-[\w]+\=[\"]{2})+/g, '').replace(/(\n)+/g, '')
                                 .replace(/(\<\![\-]{4}\>)+/g, '').replace(/active/g, '');
       });
-      this.html = html;
+      this.html = tidy_html5(html,{
+          "indent":"auto",
+          "indent-attributes": "no",
+          "vertical-space": "yes",
+          "indent-spaces":2,
+          "wrap":80,
+          "markup":true,
+          "output-xml":false,
+          "numeric-entities":true,
+          "quote-marks":true,
+          "quote-nbsp":false,
+          "show-body-only":true,
+          "quote-ampersand":false,
+          "break-before-br":true,
+          "uppercase-tags":false,
+          "uppercase-attributes":false,
+          "drop-font-tags":true,
+          "tidy-mark":false,
+      });
     },
     savePage (callback) {
       let loading = Loading.service();
@@ -266,7 +284,7 @@ export default {
     submitBase () {
       var _this = this;
       this.$http({
-        url: G.C.apiPath + _this.baseData.t_type +'/update',
+        url: G.C.apiPath + 'base/update',
           method: 'POST',
           data:_this.baseData,
           responseType: 'json'

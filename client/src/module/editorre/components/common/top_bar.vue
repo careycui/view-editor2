@@ -46,29 +46,6 @@
   </div>
 </template>
 <script>
-const _getCom = (coms, key) => {
-  if(!coms || coms.length < 1){
-    return false;
-  }
-  var stack = [];
-  var com;
-  coms.forEach((com, i) => {
-    stack.push(com);
-  });
-  var tmp;
-  while(stack.length){
-    tmp = stack.shift();
-    if(tmp.$$key === key){
-      com = tmp;
-      break;
-    }
-    var children = tmp.content;
-        if(children && children.length > 0){
-            stack = stack.concat(children);
-        }
-  }
-  return com;
-};
 export default {
 	name: 'topBar',
 	props: ['innerHtml'],
@@ -104,60 +81,9 @@ export default {
     openGlobal () {
       this.$emit('openGlobal');
     },
-    _getBtnPos(dom, com) {
-        const w = getComputedStyle(dom, null).getPropertyValue('width').replace(/px/g, '');
-        let pos = {};
-        pos.top = ( com.style.top + com.btnMargin ) + 'px';
-        if(com.pos == 'pos-left'){
-          pos.marginLeft = -( 600 - com.style.left ) + 'px';
-        }else if(com.pos == 'pos-center'){
-          pos.marginLeft = '-95px';
-        }else if(com.pos == 'pos-right'){
-          pos.marginLeft = ( 600 - com.style.right - w) + 'px';
-        }
-        return pos;
-    },
     exportBuyBtn () {
-      let doms = document.querySelectorAll('.pro-banner__safe');
-      let length = document.querySelectorAll('.pro-banner__safe').length;
-      if(length == 0){
-         this.$message({
-          showClose: true,
-          message: '请添加购买按钮组件！',
-          type: 'error'
-        });
-        return;
-      }
-      if(length > 1){
-        this.$message({
-          showClose: true,
-          message: '同一个页面不可存在多个购买按钮组件！',
-          type: 'error'
-        });
-        return;
-      }
-      const comKey = doms[0].dataset.buyComkey;
-      const com = _getCom(this.$store.getters.getPageData, comKey);
-      let style = '<style>'+
-                  '.pro-banner__price.'+com.pos+'{'+
-                  'top:'+com.style.top+'px;';
-      if(com.pos == 'pos-left'){
-        style += 'left:'+com.style.left+'px;';
-      }else if(com.pos == 'pos-right'){
-        style += 'right:'+com.style.right+'px;';
-      }
-      style += '}<\/style>';
-
-      const btnPos = this._getBtnPos(doms[0].querySelector('.pro-banner__price'), com);
-      let btn = '<script>';
-      btn += 'addBtnPos("'+ btnPos.top.replace(/px/g, '') + '", "' + btnPos.marginLeft.replace(/px/g, '') + '", "190", "48", "pro-banner")';
-      btn += '<\/script>';
-      this.$alert('<p>头部添加样式</p><textarea class="el-textarea__inner">'+ style +'</textarea>'+'<p>尾部添加样式</p><textarea class="el-textarea__inner">'+ btn +'</textarea>', 'BUY BTN CODE', {
-        dangerouslyUseHTMLString: true,
-        confirmButtonText: '关闭',
-        showClose: false
-      });
-    }
+      this.$emit('exportBuyBtn');
+    }  
 	}
 }
 </script>

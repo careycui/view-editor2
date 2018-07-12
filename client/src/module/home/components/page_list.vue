@@ -19,47 +19,55 @@
 				{{ page.desc || '未添加描述' }}
 			</div>
 			<div class="bottom-bar">
-				<el-tooltip content="设置">
+				<el-button-group>
 					<el-button size="mini" class="bottom-bar--btn" @click="openEditDialog(page)">
 						<i class="fa fa-cog bottom-bar--icon"></i>
+						<span class="text">设置</span>
 					</el-button>
-				</el-tooltip>
-				<el-tooltip content="移出">
 					<el-button size="mini" class="bottom-bar--btn" @click="shiftOutFolder(page)" v-if="page.folder_id">
 						<i class="fa fa-sign-out bottom-bar--icon"></i>
+						<span class="text">移出</span>
 					</el-button>
-				</el-tooltip>
-				<el-tooltip content="移入">
 					<el-button size="mini" class="bottom-bar--btn" @click="appendToFolder(page)" v-if="!page.folder_id">
 						<i class="fa fa-sign-in bottom-bar--icon"></i>
+						<span class="text">移入</span>
 					</el-button>
-				</el-tooltip>
-				<el-tooltip content="复制">
 					<el-button size="mini" class="bottom-bar--btn" @click="copyPage(page)">
 						<i class="fa fa-copy bottom-bar--icon"></i>
+						<span class="text">复制</span>
 					</el-button>
-				</el-tooltip>
-				<el-tooltip content="数据">
-					<el-button size="mini" class="bottom-bar--btn">
-						<i class="fa fa-bar-chart bottom-bar--icon"></i>
+					<el-button size="mini" class="bottom-bar--btn" @click="excel(page)">
+						<i class="fa fa-table bottom-bar--icon"></i>
+						<span class="text">参数</span>
 					</el-button>
-				</el-tooltip>
-				<el-tooltip content="删除">
-					<el-button size="mini" class="bottom-bar--btn" @click="deletePage(page)">
+					<el-button size="mini" type="danger" class="bottom-bar--btn" @click="deletePage(page)">
 						<i class="fa fa-trash bottom-bar--icon"></i>
+						<span class="text">删除</span>
 					</el-button>
-				</el-tooltip>
+				</el-button-group>
 			</div>
 			<div class="project-card--btns">
 				<span class="update-time">
-					更新时间：{{ page.update_time }}
+					更新时间：{{ page.update_time || page.create_time }}
 				</span>
-				<el-button size="small" class="plain-btn" @click="goPreview(page)">
-					<i class="fa fa-eye bottom-bar--icon"></i> 预览
-				</el-button>
-				<el-button size="small" class="plain-btn" @click="goEditor(page.id,page.t_type)">
-					<i class="fa fa-pencil bottom-bar--icon"></i> 编辑内容
-				</el-button>
+				<div class="el-dropdown" v-trigger-hover>
+					<el-button size="small" class="plain-btn">
+						<i class="fa fa-eye bottom-bar--icon"></i> 预览 <i class="el-icon-arrow-down el-icon--right"></i>
+					</el-button>
+					<ul class="el-dropdown-menu el-popper" style="top:35px;display:none;">
+						<li class="el-dropdown-menu__item" @click="goPreview(page, 0)">PC</li> 
+						<li class="el-dropdown-menu__item" @click="goPreview(page, 1)">Mobile</li>
+					</ul>
+				</div>
+				<div class="el-dropdown" v-trigger-hover>
+					<el-button size="small" class="plain-btn">
+						<i class="fa fa-pencil bottom-bar--icon"></i> 编辑 <i class="el-icon-arrow-down el-icon--right"></i>
+					</el-button>
+					<ul class="el-dropdown-menu el-popper" style="top:35px;display:none;">
+						<li class="el-dropdown-menu__item" @click="goEditor(page.pc,page.t_type)">PC</li> 
+						<li class="el-dropdown-menu__item" @click="goEditor(page.mobile,page.t_type)">Mobile</li>
+					</ul>
+				</div>
 			</div>
 			<div class="project-card--sign">
 				<img src="//mfs.ys7.com/mall/1749a21b9221474c593e251dc32c739d.png" v-if="page.page_type === 0">
@@ -75,8 +83,29 @@
 	</div>
 </template>
 <script>
+	import Parameter from './parameter'
 	export default {
 		name:'pageList',
+		directives: {
+			triggerHover: {
+				bind: function(el, binding){
+					const listDom = el.querySelector('.el-dropdown-menu');
+
+					el.querySelector('button').addEventListener('click',function(){
+						if(listDom.style.display == 'none'){
+							listDom.style.display = 'block';
+						}else{
+							listDom.style.display = 'none';
+						}
+					},false);
+					listDom.querySelectorAll('li').forEach((dom, i) => {
+						dom.addEventListener('click', function(e){
+							listDom.style.display = 'none';
+						}, false);
+					});
+				}
+			}
+		},
 		props:{
 			pageList:{
 				type: Array,
@@ -118,8 +147,8 @@
 			deletePage (page){
 				this.$emit('deletePage', page);
 			},
-			goPreview (page){
-				this.$emit('goPreview', page);
+			goPreview (page, platform){
+				this.$emit('goPreview', {page:page, platform: platform});
 			},
 			goEditor (id,type){
 				window.location.href="/module/editorre.html?key="+id+'&t_type='+type;
@@ -133,6 +162,9 @@
 			},
 			shiftOutFolder (page){
 				this.$emit('shiftOutFolder', page);
+			},
+			excel (page){
+				const ins = Parameter();
 			}
 		}
 	}

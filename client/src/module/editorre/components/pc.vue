@@ -6,6 +6,7 @@
       @savePage="savePage"
       @openBaseData="openBaseData"
       @openPreview="openPreview"
+      @exportBuyBtn="exportBuyBtn"
       @openGlobal="openGlobal">
     </top-bar>
     <component-ctrl></component-ctrl>
@@ -116,7 +117,29 @@ var getQueryString = function (name) {
     r = null;
     return context == null || context == "" || context == "undefined" ? "" : context;
 }
-
+const _getCom = (coms, key) => {
+  if(!coms || coms.length < 1){
+    return false;
+  }
+  var stack = [];
+  var com;
+  coms.forEach((com, i) => {
+    stack.push(com);
+  });
+  var tmp;
+  while(stack.length){
+    tmp = stack.shift();
+    if(tmp.$$key === key){
+      com = tmp;
+      break;
+    }
+    var children = tmp.content;
+        if(children && children.length > 0){
+            stack = stack.concat(children);
+        }
+  }
+  return com;
+};
 export default {
   name: 'pc',
   components: {
@@ -183,7 +206,28 @@ export default {
         html += $tmp.innerHTML.replace(/(&quot;)+/g, '\'').replace(/(data\-v\-[\w]+\=[\"]{2})+/g, '').replace(/(\n)+/g, '')
                                 .replace(/(\<\![\-]{4}\>)+/g, '').replace(/active/g, '');
       });
-      this.html = html;
+      const {style, btn} = this._exportBuyTempl();
+      html = style + html + btn;
+
+      this.html = tidy_html5(html.replace(/\'/g, ''),{
+          "indent":"auto",
+          "indent-attributes": "no",
+          "vertical-space": "no",
+          "indent-spaces":2,
+          "wrap":110,
+          "markup":true,
+          "output-xml":false,
+          "numeric-entities":true,
+          "quote-marks":true,
+          "quote-nbsp":false,
+          "show-body-only":true,
+          "quote-ampersand":false,
+          "break-before-br":true,
+          "uppercase-tags":false,
+          "uppercase-attributes":false,
+          "drop-font-tags":true,
+          "tidy-mark":false
+      });
     },
     savePage (callback) {
       let loading = Loading.service();
@@ -249,7 +293,7 @@ export default {
     submitBase () {
       var _this = this;
       this.$http({
-        url: G.C.apiPath+ _this.baseData.t_type +'/update',
+        url: G.C.apiPath + 'base/update',
           method: 'POST',
           data:_this.baseData,
           responseType: 'json'
@@ -262,6 +306,70 @@ export default {
             type: 'error'
           });
         });
+    },
+    _getBtnPos(dom, com) {
+        const w = getComputedStyle(dom, null).getPropertyValue('width').replace(/px/g, '');
+        let pos = {};
+        pos.top = ( com.style.top + com.btnMargin ) + 'px';
+        if(com.pos == 'pos-left'){
+          pos.marginLeft = -( 600 - com.style.left ) + 'px';
+        }else if(com.pos == 'pos-center'){
+          pos.marginLeft = '-95px';
+        }else if(com.pos == 'pos-right'){
+          pos.marginLeft = ( 600 - com.style.right - w) + 'px';
+        }
+        return pos;
+    },
+    _exportBuyTempl(){
+      let doms = document.querySelectorAll('.pro-banner__safe');
+      let length = document.querySelectorAll('.pro-banner__safe').length;
+      if(length == 0){
+         this.$message({
+          showClose: true,
+          message: '还未添加购买按钮组件！',
+          type: 'warning'
+        });
+      }
+      if(length > 1){
+        this.$message({
+          showClose: true,
+          message: '同一个页面不可存在多个购买按钮组件！',
+          type: 'error'
+        });
+        return;
+      }
+      let style = '';
+      let btn = '';
+      if(length == 1){
+        const comKey = doms[0].dataset.buyComkey;
+        const com = _getCom(this.$store.getters.getPageData, comKey);
+       style = '<style>'+
+                    '.pro-banner__price.'+com.pos+'{'+
+                    'top:'+com.style.top+'px;';
+        if(com.pos == 'pos-left'){
+          style += 'left:'+com.style.left+'px;';
+        }else if(com.pos == 'pos-right'){
+          style += 'right:'+com.style.right+'px;';
+        }
+        style += '}<\/style>';
+
+        const btnPos = this._getBtnPos(doms[0].querySelector('.pro-banner__price'), com);
+        btn = '<script>';
+        btn += 'addBtnPos("'+ btnPos.top.replace(/px/g, '') + '", "' + btnPos.marginLeft.replace(/px/g, '') + '", "190", "48", "pro-banner")';
+        btn += '<\/script>';
+      }
+      return {
+        style,
+        btn
+      }
+    },
+    exportBuyBtn () {
+      const {style, btn} = this._exportBuyTempl();
+      this.$alert('<p>头部添加样式</p><textarea class="el-textarea__inner">'+ style +'</textarea>'+'<p>尾部添加样式</p><textarea class="el-textarea__inner">'+ btn +'</textarea>', 'BUY BTN CODE', {
+        dangerouslyUseHTMLString: true,
+        confirmButtonText: '关闭',
+        showClose: false
+      });
     }
   }
 }

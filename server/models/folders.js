@@ -1,7 +1,6 @@
 const seq = require('./../db/db');
 const Sequelize = require('sequelize');
-const ProPage = require('./proPage');
-const TopicPage = require('./TopicPage');
+const PageBase = require('./pageBase');
 
 const Folders = seq.define('folders', {
 	id: {
@@ -23,6 +22,5 @@ const Folders = seq.define('folders', {
 	freezeTableName: true,
 	timestamps: false
 });
-Folders.hasMany(ProPage, { foreignKey: 'folder_id', as: 'ProPage'});
-Folders.hasMany(TopicPage, { foreignKey: 'folder_id',  as: 'TopicPage'});
+Folders.hasMany(PageBase, { foreignKey: 'folder_id', as: 'PageBase'});
 module.exports = Folders;

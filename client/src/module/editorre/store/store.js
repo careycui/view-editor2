@@ -65,6 +65,7 @@ const _getCom = (coms, key) => {
 const state = {
 	base:{
 		id: '',
+		base_id: '',
 		t_type: '',
 		title: '',
 		desc: '',
@@ -126,6 +127,7 @@ const mutations ={
 	},
 	SET_BASE (state, obj) {
 		state.base.id = obj.id;
+		state.base.base_id = obj.base_id;
 		state.base.title = obj.title;
 		state.base.desc = obj.desc;
 		state.base.img_cover = obj.img_cover;

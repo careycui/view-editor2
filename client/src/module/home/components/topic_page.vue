@@ -2,7 +2,7 @@
 	<transition name="fade-bottom">
 		<div class="project-body--box" v-loading.body="loading">
 			<div class="project-body--title">
-				<h3>详情页-<small>{{ type }}</small></h3>
+				<h3>专题活动页</h3>
 			</div>
 			<div class="project-body--body">
 				<el-tabs v-model="activeName" @tab-click="handleTabClick">
@@ -45,7 +45,7 @@
 import { page_common } from './utils.js'
 import PageList from './page_list'
 export default{
-	name: 'info',
+	name: 'proPage',
 	props:{
 		folders:{
 			type: Array,
@@ -61,7 +61,7 @@ export default{
 			var _this = this;
 			this.loading = true;
 			this.$http({
-				url: G.C.apiPath + 'pro/index/'+ this.type,
+				url: G.C.apiPath + 'topic/index',
 				method: 'GET',
 				responseType: 'json'
 			}).then(function(res){

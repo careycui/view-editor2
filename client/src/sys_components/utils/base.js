@@ -87,7 +87,7 @@ const formatter = {
 		if(bgImg){
 			bgImg = 'url('+ bgImg + ')';
 		}else{
-			bgImg = 'url(about:blank)';
+			bgImg = 'url(\'about:blank\')';
 		}
 		ibg.backgroundImage = bgImg;
 		let bgColor = ibg.backgroundColor;

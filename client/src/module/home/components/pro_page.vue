@@ -2,7 +2,7 @@
 	<transition name="fade-bottom">
 		<div class="project-body--box" v-loading.body="loading">
 			<div class="project-body--title">
-				<h3>专题页-<small>{{ type }}</small></h3>
+				<h3>详情页</h3>
 			</div>
 			<div class="project-body--body">
 				<el-tabs v-model="activeName" @tab-click="handleTabClick">
@@ -18,7 +18,7 @@
 		    		</el-tab-pane>
 			    	<el-tab-pane label="普通" name="base" class="ani slideInDownSm delay">
 			    		<page-list :pageList="getBaseList()"
-		    				:folders="folders"
+			    			:folders="folders"
 		    				@copyPage="copyPage"
 		    				@deletePage="deletePage"
 		    				@openEditDialog="openEditDialog"
@@ -28,7 +28,7 @@
 			    	</el-tab-pane>
 			    	<el-tab-pane label="海报" name="h5" class="ani slideInDownSm delay">
 			    		<page-list :pageList="getH5List()"
-		    				:folders="folders"
+			    			:folders="folders"
 		    				@copyPage="copyPage"
 		    				@deletePage="deletePage"
 		    				@openEditDialog="openEditDialog"
@@ -42,10 +42,10 @@
 	</transition>
 </template>
 <script>
-import PageList from './page_list'
 import { page_common } from './utils.js'
+import PageList from './page_list'
 export default{
-	name: 'topic',
+	name: 'proPage',
 	props:{
 		folders:{
 			type: Array,
@@ -61,7 +61,7 @@ export default{
 			var _this = this;
 			this.loading = true;
 			this.$http({
-				url: G.C.apiPath + 'topic/index/'+ this.type,
+				url: G.C.apiPath + 'pro/index',
 				method: 'GET',
 				responseType: 'json'
 			}).then(function(res){
@@ -74,5 +74,31 @@ export default{
 	}
 }
 </script>
-<style>
+<style lang="scss">
+.project-card--empty{
+	width: 100%;
+	height: 100px;
+	margin-top: 70px;
+	text-align: center;
+	cursor: pointer;
+
+	& h3{
+		color: #d6d6d6;
+		font-size: 36px;
+		transition: all .3s;
+	}
+	& p{
+		color: #d6d6d6;
+		font-size: 18px;
+		transition: all .3s;
+	}
+}
+.project-card--empty:hover{
+	& h3{
+		color: #20A0FF;
+	}
+	& p{
+		color: #20A0FF;
+	}
+}
 </style>
