@@ -98,16 +98,19 @@
 				}
 			},
 			_getSrc (str){
-				let imgReg = /<img.*?(?:>|\/>)/gi;
+				let imgReg = /<img.*?(?:>|\/>)/isg;
 				let imgArr = str.match(imgReg);
-				let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+				let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/is;
 				let srcs = [];
-				imgArr.forEach((img, i) => {
-					let regr = img.match(srcReg);
-					if(regr[1]){
-						srcs.push(regr[1]);
-					}
-				});
+				if(imgArr && imgArr.length > 0){
+					imgArr.forEach((img, i) => {
+						let tmp = img.replace(/\n\r/g, '').replace(/\n/g, '').replace(/ /g, '');
+						let regr = tmp.replace(/\n\r/g, '').match(srcReg);
+						if(regr[1]){
+							srcs.push(regr[1]);
+						}
+					});
+				}
 				return srcs;
 			},
 			destroyElement () {

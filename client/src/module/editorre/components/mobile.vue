@@ -14,7 +14,7 @@
     <div class="app-content mobile">
       <div class="mobile-inner" :style="[client]">
         <happy-scroll :resize="true" color="rgba(158, 158, 158,0.6)" ref="scroll">
-          <preview-panel :style="[client]"></preview-panel>
+            <preview-panel :style="{width: client.width}"></preview-panel>
         </happy-scroll>
       </div>
     </div>

@@ -23,7 +23,7 @@
 		let l = dom.offsetLeft;
 		let t = dom.offsetTop;
 		let offsetParent = dom.offsetParent;
-		while(offsetParent !== null && offsetParent !== parentDom){
+		while(offsetParent !== null && offsetParent !== parentDom && !offsetParent.classList.contains('preview')){
 			l += offsetParent.offsetLeft;
 			t += offsetParent.offsetTop;
 

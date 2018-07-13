@@ -1,7 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import './../client.config'
+import '@/module/client.config'
 import ElmentUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
@@ -9,13 +9,13 @@ import HappyScroll from 'vue-happy-scroll'
 import 'vue-happy-scroll/docs/happy-scroll.css'
 
 import axios from 'axios'
-import store from './store/store'
-import editor from './editorre.vue'
-import OperateBox from './../../sys_components/utils/operate_box'
+import store from '@/module/editorre/store/store'
+import editor from '@/module/editorre/editorre.vue'
+import OperateBox from '@/sys_components/utils/operate_box'
 
-import register from './utils/register.js'
+import register from '@/module/editorre/utils/register.js'
 
-import DragSort from './components/common/drag_sort/index'
+import DragSort from '@/module/editorre/components/common/drag_sort/index'
 
 Vue.use(ElmentUI)
 Vue.use(DragSort)

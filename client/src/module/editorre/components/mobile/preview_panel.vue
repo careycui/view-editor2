@@ -6,7 +6,7 @@
       		:key="com.$$key"
       		v-for="com in page" v-if="page && page.length > 0">
       	</preview-render>
-      	<operate-box v-if="currentComKey"></operate-box>
+        <operate-box v-if="currentComKey"></operate-box>
 	</div>
 </template>
 <script>
@@ -37,8 +37,8 @@ import PreviewRender from './../common/preview_render'
 </script>
 <style>
 	.preview-mobile{
+		position: relative;
 		width: 375px;
-		height: 603px;
 		z-index: 10;
 	}
 </style>

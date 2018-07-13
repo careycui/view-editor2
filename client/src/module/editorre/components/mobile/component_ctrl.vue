@@ -221,7 +221,6 @@ let _changeCopyChild = (content) => {
 			currentComKey (n, o){
 				if(n !== o && this.$refs.tree){
 					let com = this.$store.getters.getCurrentCom;
-					console.log(com);
 					this.$nextTick(() => {
 						this.$refs.tree.setSelected(com);
 					});
